@@ -1,16 +1,15 @@
-// URL do seu Apps Script publicado como Web App
+// URL do seu Apps Script publicado como Web App (use a URL do /exec)
 const scriptUrl = 'https://script.google.com/macros/s/AKfycbzFryBWpeT0dkw5-R39Hdpdeq6lNtI_vr-vNZBBlVf8Aoo-U7S9fOWw55rxWJq9akeC/exec';
 
 const statusElement = document.getElementById('status');
 const searchInput = document.getElementById('searchInput');
 const tableBody = document.querySelector("#processTable tbody");
 
-// Função chamada no carregamento da página
+// Carrega os dados usando JSONP
 document.addEventListener('DOMContentLoaded', () => {
     loadData();
 });
 
-// Cria <script> dinâmico para JSONP
 function loadData() {
     const script = document.createElement('script');
     script.src = scriptUrl + '?callback=handleResponse';
@@ -21,7 +20,7 @@ function loadData() {
     document.body.appendChild(script);
 }
 
-// Função de callback JSONP chamada pelo Apps Script
+// Callback JSONP chamado pelo Apps Script
 function handleResponse(response) {
     if (!response) {
         statusElement.textContent = "Resposta vazia do servidor.";
@@ -58,7 +57,7 @@ function handleResponse(response) {
     searchInput.style.display = 'block';
 }
 
-// Função de filtro da tabela
+// Filtro da tabela
 function filterTable() {
     const filter = searchInput.value.toUpperCase();
     const trs = tableBody.getElementsByTagName("tr");
