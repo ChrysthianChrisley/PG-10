@@ -1,3 +1,24 @@
+// --- LÓGICA DE SENHA ---
+const correctPassword = "Pguerj@7366";
+
+document.addEventListener('DOMContentLoaded', () => {
+    const enteredPassword = prompt("Por favor, digite a senha para acessar:");
+
+    if (enteredPassword === correctPassword) {
+        // Se a senha estiver correta, mostra o conteúdo e carrega os dados
+        document.querySelector('.container').style.display = 'block';
+        loadData();
+    } else {
+        // Se a senha estiver errada, nega o acesso
+        alert("Senha incorreta. Acesso negado.");
+        document.body.innerHTML = '<h1 style="text-align: center; margin-top: 50px;">Acesso Negado</h1>';
+    }
+});
+// --- FIM DA LÓGICA DE SENHA ---
+
+
+// O restante do código permanece o mesmo, mas só será executado se a senha estiver correta.
+
 // URL do seu Apps Script publicado como Web App (use a URL do /exec)
 const scriptUrl = 'https://script.google.com/macros/s/AKfycbzFryBWpeT0dkw5-R39Hdpdeq6lNtI_vr-vNZBBlVf8Aoo-U7S9fOWw55rxWJq9akeC/exec';
 
@@ -6,10 +27,6 @@ const searchInput = document.getElementById('searchInput');
 const tableBody = document.querySelector("#processTable tbody");
 
 // Carrega os dados usando JSONP
-document.addEventListener('DOMContentLoaded', () => {
-    loadData();
-});
-
 function loadData() {
     const script = document.createElement('script');
     script.src = scriptUrl + '?callback=handleResponse';
