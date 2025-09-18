@@ -1,6 +1,11 @@
 // --- LÓGICA DE SENHA ---
 const correctPassword = "Pguerj@7366";
 
+function normalizeText(text) {
+    if (!text) return '';
+    return text.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const enteredPassword = prompt("Por favor, digite a senha para acessar:");
 
@@ -75,14 +80,20 @@ function handleResponse(response) {
 }
 
 // Filtro da tabela
+// Filtro da tabela (VERSÃO CORRIGIDA)
 function filterTable() {
-    const filter = searchInput.value.toUpperCase();
+    // 1. Normaliza e converte para maiúsculas o texto da busca
+    const filter = normalizeText(searchInput.value).toUpperCase();
+    
     const trs = tableBody.getElementsByTagName("tr");
     for (let i = 0; i < trs.length; i++) {
         let display = "none";
         const tds = trs[i].getElementsByTagName("td");
         for (let j = 0; j < tds.length; j++) {
-            if (tds[j].textContent.toUpperCase().indexOf(filter) > -1) {
+            // 2. Normaliza e converte para maiúsculas o texto da célula
+            const cellText = normalizeText(tds[j].textContent).toUpperCase();
+            
+            if (cellText.indexOf(filter) > -1) {
                 display = "";
                 break;
             }
