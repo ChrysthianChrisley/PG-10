@@ -1,5 +1,6 @@
 // --- LÓGICA DE SENHA ---
-const correctPassword = "Pguerj@7366";
+// (Mantida exatamente como a sua)
+const correctPassword = "7366";
 
 function normalizeText(text) {
     if (!text) return '';
@@ -7,11 +8,19 @@ function normalizeText(text) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    // Esconde o container principal até a senha ser digitada
+    const container = document.querySelector('.container');
+    if (container) {
+      container.style.display = 'none';
+    }
+
     const enteredPassword = prompt("Por favor, digite a senha para acessar:");
 
     if (enteredPassword === correctPassword) {
         // Se a senha estiver correta, mostra o conteúdo e carrega os dados
-        document.querySelector('.container').style.display = 'block';
+        if (container) {
+          container.style.display = 'block';
+        }
         loadData();
     } else {
         // Se a senha estiver errada, nega o acesso
@@ -22,27 +31,58 @@ document.addEventListener('DOMContentLoaded', () => {
 // --- FIM DA LÓGICA DE SENHA ---
 
 
-// O restante do código permanece o mesmo, mas só será executado se a senha estiver correta.
-
-// URL do seu Apps Script publicado como Web App (use a URL do /exec)
+/**
+ * ATUALIZE AQUI!
+ * Cole a URL da sua *nova* implantação do Google Apps Script.
+ */
 const scriptUrl = 'https://script.google.com/macros/s/AKfycbzFryBWpeT0dkw5-R39Hdpdeq6lNtI_vr-vNZBBlVf8Aoo-U7S9fOWw55rxWJq9akeC/exec';
 
+// Elementos da página
 const statusElement = document.getElementById('status');
 const searchInput = document.getElementById('searchInput');
 const tableBody = document.querySelector("#processTable tbody");
 
-// Carrega os dados usando JSONP
+/**
+ * Carrega os dados da planilha.
+ * Agora, ele verifica o ID do body para decidir qual aba solicitar.
+ */
 function loadData() {
+    if (!statusElement) return; // Sai se os elementos não existirem (pág de erro)
+
+    statusElement.textContent = "Carregando dados, por favor aguarde...";
+    
+    // 1. Determina o nome da aba baseado no ID do <body>
+    const bodyId = document.body.id;
+    let sheetName = "PG-10"; // Padrão
+
+    if (bodyId === "page-pjtcicap") {
+        sheetName = "7ª PJTCICAP - Projetos Extensão e Inovação";
+    } else if (bodyId === "page-projetos") {
+        sheetName = "Projetos";
+    }
+    
+    // 2. Codifica o nome da aba para ser seguro na URL
+    const encodedSheetName = encodeURIComponent(sheetName);
+    
+    // 3. Monta a URL da API com o callback e o novo parâmetro 'sheet'
+    const apiUrl = `${scriptUrl}?callback=handleResponse&sheet=${encodedSheetName}`;
+    
+    // 4. Cria e adiciona o script tag para fazer a chamada JSONP
     const script = document.createElement('script');
-    script.src = scriptUrl + '?callback=handleResponse';
+    script.src = apiUrl;
+    
     script.onerror = () => {
         statusElement.textContent = "Falha ao carregar os dados (erro de rede).";
         statusElement.style.color = 'red';
     };
+    
     document.body.appendChild(script);
 }
 
-// Callback JSONP chamado pelo Apps Script
+/**
+ * Função de callback chamada pela resposta do Google Apps Script.
+ * @param {object} response O objeto JSON retornado pelo script.
+ */
 function handleResponse(response) {
     if (!response) {
         statusElement.textContent = "Resposta vazia do servidor.";
@@ -50,6 +90,7 @@ function handleResponse(response) {
         return;
     }
 
+    // Verifica se o Apps Script retornou um erro
     if (response.status === "error") {
         statusElement.textContent = `Falha: ${response.message}`;
         statusElement.style.color = 'red';
@@ -58,30 +99,37 @@ function handleResponse(response) {
     }
 
     const data = response.data;
-    tableBody.innerHTML = '';
+    tableBody.innerHTML = ''; // Limpa a tabela
 
     if (!data || data.length === 0) {
-        statusElement.textContent = "Nenhum dado encontrado na planilha.";
+        statusElement.textContent = `Nenhum dado encontrado na aba "${response.sheet}".`;
         return;
     }
 
+    // Popula a tabela
     data.forEach(rowData => {
         const tr = document.createElement('tr');
+        // O seu script original lia 6 colunas (0 a 5)
         for (let i = 0; i < 6; i++) {
             const td = document.createElement('td');
-            td.textContent = rowData[i] || '';
+            td.textContent = rowData[i] || ''; // Usa '' para células vazias
             tr.appendChild(td);
         }
         tableBody.appendChild(tr);
     });
 
+    // Esconde o status e mostra a busca
     statusElement.style.display = 'none';
     searchInput.style.display = 'block';
 }
 
-// Filtro da tabela
-// Filtro da tabela (VERSÃO CORRIGIDA)
+/**
+ * Filtra a tabela localmente com base no input de busca.
+ * (Mantido exatamente como o seu)
+ */
 function filterTable() {
+    if (!tableBody) return;
+
     // 1. Normaliza e converte para maiúsculas o texto da busca
     const filter = normalizeText(searchInput.value).toUpperCase();
     

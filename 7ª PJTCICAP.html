@@ -3,31 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de Processos - PG-10</title>
+  <title>Consulta - 7ª PJTCICAP</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <!-- 
-  O 'id' no body é crucial. 
-  Nosso script.js vai usá-lo para saber qual aba da planilha carregar.
+  Note o 'id' diferente no body. 
+  Isso diz ao script.js para carregar a aba "7ª PJTCICAP..."
 -->
-<body id="page-pg10">
+<body id="page-pjtcicap">
 
   <header>
     <nav>
-      <a href="index.html" class="active">PG-10</a>
-      <a href="7ª PJTCICAP.html">7ª PJTCICAP</a>
+      <a href="index.html">PG-10</a>
+      <a href="7ª PJTCICAP.html" class="active">7ª PJTCICAP</a>
       <a href="projetos.html">Projetos</a>
     </nav>
   </header>
 
   <div class="container">
-    <h1>Consulta de Processos (PG-10)</h1>
+    <h1>7ª PJTCICAP - Projetos Extensão e Inovação</h1>
     <p id="status">Carregando dados, por favor aguarde...</p>
 
     <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Buscar em todos os campos..." style="display: none;">
 
     <table id="processTable">
       <thead>
+        <!-- 
+          ATENÇÃO: Atualize estes cabeçalhos para 
+          corresponderem às colunas da sua aba "7ª PJTCICAP".
+          Eu mantive os 6 originais como exemplo.
+        -->
         <tr>
           <th>Processo</th>
           <th>Origem</th>

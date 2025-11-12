@@ -1,53 +1,147 @@
+/* Reset básico e fonte */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f7f6;
+  color: #333;
 }
 
+/* --- Menu de Navegação --- */
+header {
+  background-color: #004a91; /* Cor escura (ex: azul marinho) */
+  padding: 10px 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+nav {
+  max-width: 1600px; /* Alinhado com o novo container */
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+}
+
+nav a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+nav a:hover {
+  background-color: #003366; /* Tom mais escuro no hover */
+}
+
+/* Estilo do link ativo */
+nav a.active {
+  background-color: #e8a800; /* Cor de destaque (ex: amarelo/ouro) */
+  color: #003366;
+  font-weight: 600;
+}
+
+/* --- Container Principal --- */
 .container {
-    max-width: 1600px;
-    margin: auto;
-    background: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 1800px; /* AUMENTADO de 1200px */
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 h1 {
-    text-align: center;
-    color: #333;
+  color: #004a91;
+  border-bottom: 2px solid #e8a800;
+  padding-bottom: 10px;
+}
+
+/* --- Barra de Busca e Status --- */
+#status {
+  font-size: 1.1em;
+  font-weight: 500;
+  color: #555;
+  padding: 20px;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
 }
 
 #searchInput {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-sizing: border-box; /* Garante que padding não afete a largura */
 }
 
+/* --- Tabela --- */
 #processTable {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse; /* Bordas unidas */
+  margin-top: 20px;
+  table-layout: fixed; /* ADICIONADO: Força a tabela a obedecer as larguras */
 }
 
-#processTable th, #processTable td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: left;
+#processTable th,
+#processTable td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: left;
+  vertical-align: top;
+  word-break: break-word; 
 }
 
 #processTable th {
-    background-color: #f2f2f2;
-    color: #333;
+  background-color: #004a91;
+  color: white;
+  font-weight: 600;
+  white-space: nowrap; /* ADICIONADO: Impede a quebra de linha nos cabeçalhos */
 }
 
-#processTable tr:nth-child(even) {
-    background-color: #f9f9f9;
+#processTable tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Linhas alternadas */
 }
 
-#processTable tr:hover {
-    background-color: #f1f1f1;
+#processTable tbody tr:hover {
+  background-color: #e6f0fa; /* Destaque no hover */
+}
+
+/* --- Largura Específica das Colunas (NOVO) --- */
+/* Define as larguras para o layout fixo */
+#processTable th:nth-child(1), #processTable td:nth-child(1) { width: 15%; } /* Processo */
+#processTable th:nth-child(2), #processTable td:nth-child(2) { width: 15%; } /* Origem */
+#processTable th:nth-child(3), #processTable td:nth-child(3) { width: 5%;  } /* Ano */
+#processTable th:nth-child(4), #processTable td:nth-child(4) { width: 20%; } /* Requerente */
+#processTable th:nth-child(5), #processTable td:nth-child(5) { width: 15%; } /* Cidade */
+#processTable th:nth-child(6), #processTable td:nth-child(6) { width: 30%; } /* Relato */
+
+
+/* --- Responsividade --- */
+@media (max-width: 768px) {
+  nav {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  nav a {
+    text-align: center;
+  }
+
+  /* Força a tabela a não ser tão larga, permitindo scroll horizontal */
+  .container {
+    overflow-x: auto;
+  }
+  
+  #processTable {
+    min-width: 700px; /* Força um min-width para scroll */
+    /* Reseta o layout fixo e larguras para o modo mobile, se desejar */
+    /* table-layout: auto; */ 
+  }
+  
+  /* Resetar larguras no mobile para o auto-layout funcionar */
+  /* #processTable th:nth-child(n), #processTable td:nth-child(n) { width: auto; } */
 }
