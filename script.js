@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * ATUALIZE AQUI!
  * Cole a URL da sua *nova* implantação do Google Apps Script.
  */
-const scriptUrl = 'https://script.google.com/macros/s/AKfycbzSTtp6uP3RrpHPNutRGQD59GdVQn_dEQoylJxRnHW9kkYIQweSl_fyg83s59Ut7Oj3/exec';
+const scriptUrl = 'https://script.google.com/macros/s/AKfycbxE0YtRPXkKbmkajPk0qa22V6ObxIfLaYisWbJ35S-Rs263Opv6BdzImffiq1yk6G2K/exec';
 
 // Elementos da página
 const statusElement = document.getElementById('status');
